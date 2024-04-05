@@ -1,14 +1,14 @@
-name: CI Stage
+name: Issues Sync
 on:
-  push:
-    branches: 
-     - 'releases/**'
+  issues:
+    types: [labeled, unlabeled]
 env:
   REPO_TOKEN: ${{ secrets.WISE_CD_REPO_TOKEN }}
   GIT_ORG:    wisemonkeys-co 
+  VERSION:    6.2.0
 jobs:  
-  check:    
-    name: Check Vars
+  sync:    
+    name: Sync Issues
     runs-on: ubuntu-latest
     permissions:
       issues: write
