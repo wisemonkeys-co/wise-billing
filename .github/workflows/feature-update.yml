@@ -19,7 +19,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           PARENT_ISSUE: ${{ github.event.issue.number }}
-          LABEL: ${{ github.event.issue.label}}
+          LABEL: ${{ github.event.label.name }}
         run: |
            echo $LABEL
           # curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $CD_REPO_TOKEN" https://api.github.com/repos/$GIT_ORG/dispatches 
