@@ -6,6 +6,7 @@ on:
 env:
   REPO_TOKEN: ${{ secrets.WISE_CD_REPO_TOKEN }}
   GIT_ORG:    wisemonkeys-co 
+  VERSION:    6.2.0
 jobs:  
   check:    
     name: Check Vars
