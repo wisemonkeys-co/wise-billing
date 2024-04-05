@@ -14,12 +14,13 @@ jobs:
       issues: write
     steps:
       #- run: gh issue edit "$NUMBER" --add-label "$LABELS"
-      - run: echo "$NUMBER"
+      - name: Link sub issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.issue.number }}
-          LABELS: triage
-    #  - name: Message Dispatch to HMG CD     
-    #    run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $CD_REPO_TOKEN" https://api.github.com/repos/$CD_REPO/dispatches 
-    #         -d '{"event_type":"issue-update","client_payload":{"parentBranch":"'$IMAGE_NAME'","imageTag":"'$IMAGE_TAG'","releaseNotes":" v '$IMAGE_TAG'"}}'
+          PARENT_ISSUE: ${{ github.event.issue.number }}
+          LABEL: ${{ github.event.label.name }}
+        run: |
+           echo $LABEL
+          # curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $CD_REPO_TOKEN" https://api.github.com/repos/$GIT_ORG/dispatches 
+          # -d '{"event_type":"issue-update","client_payload":{"parentIssue":"'$PARENT_ISSUE'"}}'
