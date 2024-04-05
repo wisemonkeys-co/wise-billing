@@ -20,5 +20,7 @@ jobs:
     steps:
       #- run: gh issue edit "$NUMBER" --add-label "$LABELS"
       - name: Link sub issue
-        run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$GIT_ORG/$LABEL/dispatches 
-              -d '{"event_type":"parent-issue-updated","client_payload":{"issue":{"number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"}}}'
+        run:  echo https://api.github.com/repos/$GIT_ORG/$LABEL/dispatches
+        
+        # curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$GIT_ORG/$LABEL/dispatches 
+        #       -d '{"event_type":"parent-issue-updated","client_payload":{"issue":{"number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"}}}'
