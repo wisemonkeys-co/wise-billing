@@ -22,4 +22,4 @@ jobs:
       - name: Link sub issue
         run: |
            curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $CD_REPO_TOKEN" https://api.github.com/repos/$GIT_ORG/$LABEL/dispatches 
-           -d '{"event_type":"issue-update","client_payload":{"issue": { "number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"}}}'
+           -d '{"event_type":"parent-issue-updated","client_payload":{"issue": { "number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"}}}'
