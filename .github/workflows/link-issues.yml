@@ -1,4 +1,4 @@
-name: Issues Sync
+name: Link issue
 on:
   issues:
     types: [labeled, unlabeled]
@@ -13,7 +13,7 @@ env:
   LABEL: ${{ github.event.label.name }}
 jobs:  
   sync:    
-    name: Sync Issues
+    name: Link sub Issue
     runs-on: ubuntu-latest
     # permissions:
     #   issues: write
