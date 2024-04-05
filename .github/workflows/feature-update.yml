@@ -1,0 +1,20 @@
+name: CI Stage
+on:
+  push:
+    branches: 
+     - 'releases/**'
+env:
+  REPO_TOKEN: ${{ secrets.WISE_CD_REPO_TOKEN }}
+  GIT_ORG:    wisemonkeys-co 
+jobs:  
+  check:    
+    name: Check Vars
+    runs-on: ubuntu-latest
+   
+    steps:
+     - name: print
+       run: |
+          echo repos: $GIT_ORG/$GITHUB_REF
+    #  - name: Message Dispatch to HMG CD     
+    #    run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $CD_REPO_TOKEN" https://api.github.com/repos/$CD_REPO/dispatches 
+    #         -d '{"event_type":"issue-update","client_payload":{"parentBranch":"'$IMAGE_NAME'","imageTag":"'$IMAGE_TAG'","releaseNotes":" v '$IMAGE_TAG'"}}'
