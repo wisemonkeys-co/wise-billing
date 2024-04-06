@@ -11,7 +11,7 @@ env:
   ISSUE_NUMBER: ${{ github.event.issue.number }}
   ISSUE_TITLE: ${{ github.event.issue.title }}
   LABEL: ${{ github.event.label.name }}
-  ACTION: ${{ github.event_name }}
+  ACTION: ${{ github.event.action }}
 jobs:  
   sync:    
     name: Link sub Issue
