@@ -11,7 +11,7 @@ env:
   ISSUE_NUMBER: ${{ github.event.issue.number }}
   ISSUE_TITLE: ${{ github.event.issue.title }}
   LABEL: ${{ github.event.label.name }}
-  ISSUE_EVENT_TYPE: ${{ github.event.type }}
+  ACTION: ${{ github.event_name }}
 jobs:  
   sync:    
     name: Link sub Issue
@@ -22,4 +22,4 @@ jobs:
       #- run: gh issue edit "$NUMBER" --add-label "$LABELS"
       - name: Link sub issue
         run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$GIT_ORG/$LABEL/dispatches 
-              -d '{"event_type":"parent-issue-updated","client_payload":{"operation":"'$ISSUE_EVENT_TYPE'", "issue":{"number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"}}}'
+              -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION_EVENT_NAME'", "issue":{"number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"}}}'
