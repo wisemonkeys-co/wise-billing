@@ -6,7 +6,6 @@ env:
   REPO_TOKEN:   ${{ secrets.WISE_CD_REPO_TOKEN }}
   ORGANIZATION: wisemonkeys-co 
   PRODUCT:      wise-billing
-  VERSION:      6.2.0
   GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
   GH_REPO:      ${{ github.repository }}
   ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -17,10 +16,7 @@ jobs:
   sync:    
     name: Link sub Issue
     runs-on: ubuntu-latest
-    # permissions:
-    #   issues: write
     steps:
-      #- run: gh issue edit "$NUMBER" --add-label "$LABELS"
       - name: Link sub issue
         run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches 
-              -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","issue":{"number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"},"product":{"name":"'$PRODUCT'","release":"'$VERSION'","organization":"'$ORGANIZATION'"}}}'
+              -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","issue":{"number":"'$ISSUE_NUMBER'","title":"'$ISSUE_TITLE'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'"}}}'
