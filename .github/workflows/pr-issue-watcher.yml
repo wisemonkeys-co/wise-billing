@@ -1,0 +1,20 @@
+name: Start Request for Delivery
+on:
+  repository_dispatch:
+    types: [pr-merged]
+  workflow_dispatch:  
+env:
+  ORGANIZATION: wisemonkeys-co 
+  PRODUCT:      wise-billing
+  CHILD_BRANCH: ${{ github.event.client_payload.branch }}
+jobs:
+  upgrade-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: echo branch
+        run:  echo $CHILD_BRANCH
+          
+          
+          
