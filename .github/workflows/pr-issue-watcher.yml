@@ -6,8 +6,8 @@ on:
 env:
   ORGANIZATION:  wisemonkeys-co 
   PRODUCT:       wise-billing
-  CHILD_SERVICE: ${{ github.event.client_payload.branch }}
-  CHILD_BRANCH:  ${{ github.event.client_payload.service }}
+  CHILD_SERVICE: ${{ github.event.client_payload.service }}
+  CHILD_BRANCH:  ${{ github.event.client_payload.branch }}
 jobs:
   upgrade-pull-request:
     runs-on: ubuntu-latest
