@@ -21,7 +21,7 @@ jobs:
           uses: actions/checkout@v4   
         - name: Pull Request
           run:  |
-            branch=${PARENT_PRODUCT}"_"${PARENT_ISSUE_NUMBER}
+            branch=${PRODUCT}"_"${ISSUE_NUMBER}
             echo "Checking if "$branch" already exists ..."
             existed_in_remote=$(git ls-remote --heads origin ${branch})
             if [[ -z ${existed_in_remote} ]]; then
