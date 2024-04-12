@@ -1,0 +1,43 @@
+name: New Issus
+on:
+  issues:
+    types: [opened]
+env:
+  REPO_TOKEN:   ${{ secrets.WISE_CD_REPO_TOKEN }}
+  ORGANIZATION: wisemonkeys-co 
+  PRODUCT:      wise-billing
+  PROJECT_ID:   1
+  GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
+  GH_REPO:      ${{ github.repository }}
+  ISSUE_NUMBER: ${{ github.event.issue.number }}
+  ISSUE_TITLE:  ${{ github.event.issue.title }}
+  ACTION:       ${{ github.event.action }}
+
+jobs:
+    new-issue:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4   
+        - name: Pull Request
+          run:  |
+            branch=${PARENT_PRODUCT}"_"${PARENT_ISSUE_NUMBER}
+            echo "Checking if "$branch" already exists ..."
+            existed_in_remote=$(git ls-remote --heads origin ${branch})
+            if [[ -z ${existed_in_remote} ]]; then
+                echo "Creting new Branch "$branch" ... " 
+                git config user.name github-actions
+                git config user.email github-actions@github.com
+                git checkout -b ${branch}
+                echo $(date) issue $PARENT_ISSUE_TITLE branch $branch created >> trace
+                git add .
+                git commit -a -m "New pull request for deploy "${branch} 
+                git push -u origin ${branch}
+                echo "Branch "$branch" created "
+                echo "Creting new PR "$branch" ... " 
+                curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/pulls \
+                     -d '{"title":"'"${ISSUE_TITLE"'","head":"'"${branch}"'","base":"main"}'                 
+                echo "PR "$branch" created " 
+            else
+                echo "Branch "$branch" already exists" 
+            fi

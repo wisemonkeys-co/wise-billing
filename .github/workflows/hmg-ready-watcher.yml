@@ -1,7 +1,7 @@
-name: Start Request for Delivery
+name: Ready to homolog
 on:
   repository_dispatch:
-    types: [pr-merged]
+    types: [hmg-ready]
   workflow_dispatch:  
 env:
   ORGANIZATION:  wisemonkeys-co 
