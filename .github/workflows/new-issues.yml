@@ -1,4 +1,4 @@
-name: New Issus
+name: New Issue
 on:
   issues:
     types: [opened]
@@ -24,7 +24,6 @@ jobs:
             branch=${PRODUCT}"_"${ISSUE_NUMBER}
             echo "Checking if "$branch" already exists ..."
             existed_in_remote=$(git ls-remote --heads origin ${branch})
-            echo "Exists  "$existed_in_remote" ... "
             if [[ -z ${existed_in_remote} ]]; then
                 echo "Creting new Branch "$branch" ... " 
                 git config user.name github-actions
@@ -37,7 +36,7 @@ jobs:
                 echo "Branch "$branch" created "
                 echo "Creting new PR "$branch" ... " 
                 curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/pulls \
-                     -d '{"title":"'"${ISSUE_TITLE"'","head":"'"${branch}"'","base":"main"}'                 
+                     -d '{"title":"'"${ISSUE_TITLE}"'","head":"'"${branch}"'","base":"main"}'                 
                 echo "PR "$branch" created " 
             else
                 echo "Branch "$branch" already exists" 
