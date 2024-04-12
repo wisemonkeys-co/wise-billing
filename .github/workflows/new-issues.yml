@@ -24,12 +24,13 @@ jobs:
             branch=${PRODUCT}"_"${ISSUE_NUMBER}
             echo "Checking if "$branch" already exists ..."
             existed_in_remote=$(git ls-remote --heads origin ${branch})
+            echo "Exists  "$existed_in_remote" ... "
             if [[ -z ${existed_in_remote} ]]; then
                 echo "Creting new Branch "$branch" ... " 
                 git config user.name github-actions
                 git config user.email github-actions@github.com
                 git checkout -b ${branch}
-                echo $(date) issue $PARENT_ISSUE_TITLE branch $branch created >> trace
+                echo $(date) issue $ISSUE_TITLE branch $branch created >> trace
                 git add .
                 git commit -a -m "New pull request for deploy "${branch} 
                 git push -u origin ${branch}
