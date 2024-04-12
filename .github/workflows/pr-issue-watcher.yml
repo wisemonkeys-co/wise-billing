@@ -8,6 +8,9 @@ env:
   PRODUCT:       wise-billing
   CHILD_SERVICE: ${{ github.event.client_payload.service }}
   CHILD_BRANCH:  ${{ github.event.client_payload.branch }}
+  MERGED_AT:     ${{ github.event.client_payload.mergedAt }}
+  PR_TITLE:      ${{ github.event.client_payload.title }}
+
 jobs:
   upgrade-pull-request:
     runs-on: ubuntu-latest
@@ -15,7 +18,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: echo branch
-        run:  echo "service:"$CHILD_SERVICE" branch:"$CHILD_BRANCH
+        run:  |
+         echo "PR ${PR_TITLE} from ${CHILD_BRANCH} of repo ${CHILD_SERVICE} merged at ${MERGED_AT} " 
+        
+#service:"$CHILD_SERVICE" branch:"$CHILD_BRANCH
+
           
           
           
