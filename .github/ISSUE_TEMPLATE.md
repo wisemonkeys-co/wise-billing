@@ -1,4 +1,6 @@
-Descrição geral
+<h2>Descrição</h2>
+
+Descrever de forma abrangente a funcionalidade a ser implementada
 
 <h2>Objetivos</h2>
 
@@ -12,8 +14,11 @@ Descrição geral
 
 <h2>Serviços</h2>
 
-- ocs-x
-- ocs-y
+### Serviços  associados (repositórios)
+[//]: # (task-start ... Não editar esta seção)
+
+
+<h2>Detalhamento</h2>
 
 
 
