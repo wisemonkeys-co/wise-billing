@@ -1,4 +1,4 @@
-name: New Issue
+name: New Milestone
 on:
   milestone:
     types: [created]
@@ -9,19 +9,19 @@ env:
   PROJECT_ID:   1
   GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
   GH_REPO:      ${{ github.repository }}
-  MILESTONE_ID: ${{ github.event.milestone.id }}
+  MILESTONE_NUMBER: ${{ github.event.milestone.number }}
   MILESTONE_TITLE:  ${{ github.event.milestone.title }}
   ACTION:       ${{ github.event.action }}
 
 jobs:
-    new-issue:
+    new-milestone:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout
           uses: actions/checkout@v4   
         - name: Pull Request
           run:  |
-           branch=${PRODUCT}"_"${MILESTONE_ID}
+           branch=${PRODUCT}"_"${MILESTONE_NUMBER}
            echo "Checking if "$branch" already exists ..."
            env
 
