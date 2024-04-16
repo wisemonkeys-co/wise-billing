@@ -1,7 +1,7 @@
 name: New Issue
 on:
-  issues:
-    types: [opened]
+  milestone:
+    types: [created]
 env:
   REPO_TOKEN:   ${{ secrets.WISE_CD_REPO_TOKEN }}
   ORGANIZATION: wisemonkeys-co 
