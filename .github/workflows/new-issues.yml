@@ -23,6 +23,7 @@ jobs:
           run:  |
            branch=${PRODUCT}"_"${MILESTONE_ID}
            echo "Checking if "$branch" already exists ..."
+           env
 
 
 
