@@ -1,4 +1,4 @@
-name: Link issue
+name: Update release notes
 on:
   issues:
     types: [milestoned, demilestoned]
@@ -16,14 +16,14 @@ env:
   ACTION:       ${{ github.event.action }}
 jobs:  
   sync:    
-    name: Link sub Issue
+    name: Update
     runs-on: ubuntu-latest
     steps:
-      - name: Link sub issue
+      - name: Update
         run:  |
            echo " ${MILESTONE_NUMBER}" "${MILESTONE_TITLE}
            echo " ${ISSUE_NUMBER}" "${ISSUE_TITLE}
+           curl --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?milestone=$MILESTONE_NUMBER
+
+
         
-        
-        # curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches 
-        #       -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","repo":"'$LABEL'","issue":{"number":"'$ISSUE_NUMBER'","title":"'"$ISSUE_TITLE"'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'","projectId":"'$PROJECT_ID'"}}}'
