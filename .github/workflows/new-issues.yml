@@ -9,8 +9,8 @@ env:
   PROJECT_ID:   1
   GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
   GH_REPO:      ${{ github.repository }}
-  MILESTONE_ID: ${{ github.repository.milestone.id }}
-  MILESTONE_TITLE:  ${{ github.repository.milestone.title }}
+  MILESTONE_ID: ${{ github.event.milestone.id }}
+  MILESTONE_TITLE:  ${{ github.event.milestone.title }}
   ACTION:       ${{ github.event.action }}
 
 jobs:
