@@ -28,9 +28,9 @@ jobs:
                 echo "Creting new Branch "$branch" ... " 
                 git config user.name github-actions
                 git config user.email github-actions@github.com
-                git checkout -b ${branch}
-                echo $(date) milestone $MILESTONE_TITLE branch $branch created >> trace
+                git checkout -b ${branch}   
                 mkdir releases/$MILESTONE_TITLE
+                echo $(date) milestone $MILESTONE_TITLE branch $branch created >> releases/$MILESTONE_TITLE/trace
                 git add .
                 git commit -a -m "New pull request for milestone "$MILESTONE_TITLE" branch "${branch} 
                 git push -u origin ${branch}
