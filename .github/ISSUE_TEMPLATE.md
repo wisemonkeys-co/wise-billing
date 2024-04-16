@@ -14,7 +14,7 @@ Descrever de forma abrangente a funcionalidade a ser implementada
 
 <h2>Serviços</h2>
 
-### Serviços  associados (repositórios)
+### Tarefas relacionads aos serviços/domínios:
 [//]: # (task-start ... Não editar esta seção)
 
 
