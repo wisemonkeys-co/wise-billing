@@ -1,0 +1,29 @@
+name: Link issue
+on:
+  issues:
+    types: [milestoned, demilestoned]
+env:
+  REPO_TOKEN:   ${{ secrets.WISE_CD_REPO_TOKEN }}
+  ORGANIZATION: wisemonkeys-co 
+  PRODUCT:      wise-billing
+  PROJECT_ID:   1
+  GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
+  GH_REPO:      ${{ github.repository }}
+  MILESTONE_NUMBER: ${{ github.event.milestone.number }}
+  MILESTONE_TITLE:  ${{ github.event.milestone.title}}
+  ISSUE_NUMBER: ${{ github.event.issue.number }}
+  ISSUE_TITLE:  ${{ github.event.issue.title}}
+  ACTION:       ${{ github.event.action }}
+jobs:  
+  sync:    
+    name: Link sub Issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Link sub issue
+        run:  |
+           echo " ${MILESTONE_NUMBER}" "${MILESTONE_TITLE}
+           echo " ${ISSUE_NUMBER}" "${ISSUE_TITLE}
+        
+        
+        # curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches 
+        #       -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","repo":"'$LABEL'","issue":{"number":"'$ISSUE_NUMBER'","title":"'"$ISSUE_TITLE"'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'","projectId":"'$PROJECT_ID'"}}}'
