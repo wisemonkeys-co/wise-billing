@@ -3,27 +3,47 @@ on:
   issues:
     types: [milestoned, demilestoned]
 env:
-  REPO_TOKEN:   ${{ secrets.WISE_CD_REPO_TOKEN }}
-  ORGANIZATION: wisemonkeys-co 
-  PRODUCT:      wise-billing
-  PROJECT_ID:   1
-  GH_TOKEN:     ${{ secrets.GITHUB_TOKEN }}
-  GH_REPO:      ${{ github.repository }}
-  MILESTONE_NUMBER: ${{ github.event.milestone.number }}
-  MILESTONE_TITLE:  ${{ github.event.milestone.title}}
-  ISSUE_NUMBER: ${{ github.event.issue.number }}
-  ISSUE_TITLE:  ${{ github.event.issue.title}}
-  ACTION:       ${{ github.event.action }}
+  REPO_TOKEN:    ${{ secrets.WISE_CD_REPO_TOKEN }}
+  ORGANIZATION:  wisemonkeys-co 
+  PRODUCT:       wise-billing
+  BRANCH_PREFIX: wise-change-mng
+  PROJECT_ID:    1
+  GH_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
+  GH_REPO:       ${{ github.repository }}
+  MILESTONE_NUMBER:  ${{ github.event.milestone.number }}
+  MILESTONE_TITLE:   ${{ github.event.milestone.title}}
+  ISSUE_NUMBER:  ${{ github.event.issue.number }}
+  ISSUE_TITLE:   ${{ github.event.issue.title}}
+  ACTION:        ${{ github.event.action }}
 jobs:  
   sync:    
     name: Update
     runs-on: ubuntu-latest
     steps:
-      - name: Update
+      - name: Checkout
+        uses: actions/checkout@v4   
+      - name: Pull Request
         run:  |
-           echo " ${MILESTONE_NUMBER}" "${MILESTONE_TITLE}
-           echo " ${ISSUE_NUMBER}" "${ISSUE_TITLE}
-           curl --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?milestone=$MILESTONE_NUMBER
+            branch=${BRANCH_PREFIX}"_"${MILESTONE_NUMBER}
+            echo "Checking if "$branch" already exists ..."
+            existed_in_remote=$(git ls-remote --heads origin ${branch})
+            if [[ -z ${existed_in_remote} ]]; then
+                echo "Branch "$branch" not found" 
+            else
+             echo "Updating release notes on branch "$branch" ... " 
+             git config user.name github-actions
+             git config user.email github-actions@github.com
+             git fetch origin ${branch} 
+             git checkout ${branch}   
+             echo $(date) milestone $MILESTONE_TITLE $branch updated >> releases/$MILESTONE_TITLE/trace
+             curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?state=closed\&milestone=$MILESTONE_NUMBER | jq -r '.[].title' > releases/$MILESTONE_TITLE/release-notes.md
+             git add .
+             git commit -a -m $MILESTONE_TITLE" updated "
+             git push -u origin ${branch}
+            fi
+
+
+#           curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?state=closed\&milestone=$MILESTONE_NUMBER | jq -r '.[].title' > releases/$MILESTONE_TITLE/release-notes.md
 
 
         

@@ -22,7 +22,7 @@ jobs:
           uses: actions/checkout@v4   
         - name: Pull Request
           run:  |
-            branch=${PRODUCT}"_"${MILESTONE_NUMBER}
+            branch=${BRANCH_PREFIX}"_"${MILESTONE_NUMBER}
             echo "Checking if "$branch" already exists ..."
             existed_in_remote=$(git ls-remote --heads origin ${branch})
             if [[ -z ${existed_in_remote} ]]; then
@@ -30,7 +30,7 @@ jobs:
                 git config user.name github-actions
                 git config user.email github-actions@github.com
                 git checkout -b ${branch}   
-                mkdir releases/$MILESTONE_TITLE
+                mkdir -p releases/$MILESTONE_TITLE
                 echo $(date) milestone $MILESTONE_TITLE branch $branch created >> releases/$MILESTONE_TITLE/trace
                 git add .
                 git commit -a -m "New pull request for milestone "$MILESTONE_TITLE" branch "${branch} 
