@@ -1,7 +1,7 @@
 name: Update release notes
 on:
   issues:
-    types: [milestoned, demilestoned]
+    types: [milestoned, demilestoned,closed]
 env:
   REPO_TOKEN:    ${{ secrets.WISE_CD_REPO_TOKEN }}
   ORGANIZATION:  wisemonkeys-co 
@@ -36,7 +36,7 @@ jobs:
              git fetch origin ${branch} 
              git checkout ${branch}   
              echo $(date) milestone $MILESTONE_TITLE $branch updated >> releases/$MILESTONE_TITLE/trace
-             curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?state=closed\&milestone=$MILESTONE_NUMBER | jq -r '.[].title' > releases/$MILESTONE_TITLE/release-notes.md
+             curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?state=closed\&milestone=$MILESTONE_NUMBER | jq -r '.[].title' > releases/$MILESTONE_TITLE/release-notes.md             
              git add .
              git commit -a -m $MILESTONE_TITLE" updated "
              git push -u origin ${branch}
