@@ -10,8 +10,10 @@ env:
   PROJECT_ID:    1
   GH_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
   GH_REPO:       ${{ github.repository }}
-  MILESTONE_NUMBER:  ${{ github.event.issue.milestone.number }}
-  MILESTONE_TITLE:   ${{ github.event.issue.milestone.title}}
+  MILESTONE_NUMBER:  ${{ github.event.milestone.number }}
+  MILESTONE_TITLE:   ${{ github.event.milestone.title}}
+  ISSUE_MILESTONE_NUMBER:  ${{ github.event.issue.milestone.number }}
+  ISSUE_MILESTONE_TITLE:   ${{ github.event.issue.milestone.title}}
   ISSUE_NUMBER:  ${{ github.event.issue.number }}
   ISSUE_TITLE:   ${{ github.event.issue.title}}
   ACTION:        ${{ github.event.action }}
@@ -24,6 +26,10 @@ jobs:
         uses: actions/checkout@v4   
       - name: Pull Request
         run:  |
+            if [[ -z ${MILESTONE_NUMBER} ]]; then
+              MILESTONE_NUMBER=${ISSUE_MILESTONE_NUMBER}
+              MILESTONE_TITLE=${ISSUE_MILESTONE_TITLE}
+            fi
             branch=${BRANCH_PREFIX}"_"${MILESTONE_NUMBER}
             echo "Checking if "$branch" already exists ..."
             existed_in_remote=$(git ls-remote --heads origin ${branch})
