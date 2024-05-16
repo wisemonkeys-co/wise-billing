@@ -1,7 +1,7 @@
 name: Update release notes
 on:
   issues:
-    types: [milestoned, demilestoned,closed]
+    types: [milestoned, demilestoned,closed,deleted]
 env:
   REPO_TOKEN:    ${{ secrets.WISE_CD_REPO_TOKEN }}
   ORGANIZATION:  wisemonkeys-co 
