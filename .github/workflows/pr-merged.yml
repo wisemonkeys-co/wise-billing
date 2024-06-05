@@ -17,7 +17,7 @@ jobs:
     - name: Send email using AWS SES
       uses: dsfx3d/action-aws-ses@v1
       with:
-            to: 'paulo.whyte@icloud.com'
+            to: 'private.customers@wisemonkeys.co'
             from: 'paulo.whyte@wisemonkeys.co'
             subject: 'GitHub Action Test'
             body: 'This is a test email sent from a GitHub Action.'
