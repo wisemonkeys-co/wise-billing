@@ -5,6 +5,7 @@ env:
     AWS_ACCESS_KEY_ID: ${{ secrets.SES_ACCESS_KEY_ID }}
     AWS_SECRET_ACCESS_KEY: ${{ secrets.SES_SECRET_ACCESS_KEY }}
     AWS_DEFAULT_REGION: 'sa-east-1'
+
     
 jobs:
   send-email:
@@ -18,10 +19,10 @@ jobs:
       uses: dsfx3d/action-aws-ses@v1
       with:
             to: 'private.customers@wisemonkeys.co'
-            from: 'paulo.whyte@wisemonkeys.co'
+            from: 'ops@wisemonkeys.co'
             subject: 'GitHub Action Test'
             body: 'This is a test email sent from a GitHub Action.'
 #            cc: 'cc1@example.com,cc2@example.com'
 #            bcc: 'bcc1@example.com,bcc2@example.com'
 #            reply_to: 'reply1@example.com,reply2@example.com'
-            body_html: '<h1>This is a test email</h1>'
+            body_html: '<h1>This is a test email</h1>\n<h2>linha 2</h2>'
