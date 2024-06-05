@@ -19,7 +19,7 @@ jobs:
     - name: Notes
       run:  |
        NOTES=$(cat releases/6.2.0/release-notes.md)
-       echo NOTES
+       echo "|"$NOTES"|"
 
     - name: Send email using AWS SES
       uses: dsfx3d/action-aws-ses@v1
