@@ -25,6 +25,8 @@ jobs:
        TEXT="Feature1"
        HTML="<h1>Wise Billing 4.0.0<\/h1><p>Feature 1<\/br> Feature2<\/p><a class='ulink' href='http:\/\/www.google.com' target='_blank'>Google<\/a>"
 
+       echo $HTML
+
        sed 's/#subject#/'$SUBJECT'/' template.json > 1.json
        sed 's/#text#/'$TEXT'/' 1.json > 2.json
        sed 's/#html#/'$HTML'/' 2.json > message.json
