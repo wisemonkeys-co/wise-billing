@@ -34,7 +34,7 @@ jobs:
     #         from: 'ops@wisemonkeys.co'
     #         subject: 'Wise Billing v 6.2.0'
     #         body: 'Wise Billing v 6.2.0'
-    #         body_html: "<h1>Wise Billing 2.0.0</h1><p>${{ steps.content.outputs.NOTES }}</p>"
+    #         body_html: "<h1>Wise Billing 2.0.0</h1><p>{{ steps.content.outputs.NOTES }}</p>"
                 
             
             
@@ -50,11 +50,11 @@ jobs:
                 #   - name: Docker Build
                 #     uses: "actions/docker/cli@master"
                 #     with:
-                #       args: build . --file Dockerfile -t cflynnus/blog:${{ steps.vars.outputs.docker_tag }}
+                #       args: build . --file Dockerfile -t cflynnus/blog:
                 #   - name: Docker Tag Latest
                 #     uses: "actions/docker/cli@master"
                 #     with:
-                #       args: tag cflynnus/blog:${{ steps.vars.outputs.docker_tag }} cflynnus/blog:latest              
+                #       args: tag cflynnus/blog: cflynnus/blog:latest              
 
 
 
