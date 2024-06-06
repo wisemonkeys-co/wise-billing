@@ -20,7 +20,7 @@ jobs:
     - name: Build body
       id: content
       run:  |
-       echo "NOTES=$(cat releases/6.2.0/release-notes.md)" >> $GITHUB_OUTPUT
+       NOTES=$(cat releases/6.2.0/release-notes.md)
        aws --version
        aws ses send-email --from ops@wisemonkeys.co --destination file://destination.json --message file://message.json
        
