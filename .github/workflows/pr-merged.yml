@@ -21,9 +21,9 @@ jobs:
       id: content
       run:  |
        NOTES=$(cat releases/6.2.0/release-notes.md)
-       echo "{"ToAddresses":  ["private.customers@wisemonkeys.co"],"CcAddresses":  [],"BccAddresses": []}" > destination.json
+       echo '{"ToAddresses":  ["private.customers@wisemonkeys.co"],"CcAddresses":  [],"BccAddresses": []}' > destination.json
        echo '{"Subject":{"Data":' > message.json
-       echo  "Test email sent using the AWS CLI"  > message.json
+       echo  '"Test email sent using the AWS CLI"'  > message.json
        echo  ',"Charset":"UTF-8"},"Body": {"Text": {"Data":'  >> message.json
        echo  '"This is the message body in text format."'  >> message.json
        echo  ',"Charset": "UTF-8"},"Html": {"Data":'  >> message.json
