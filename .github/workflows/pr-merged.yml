@@ -26,8 +26,6 @@ jobs:
 
     - name: Send email using AWS SES
       uses: dsfx3d/action-aws-ses@v1
-      env: 
-        NOTES : "xxx"
       with:
             to: 'private.customers@wisemonkeys.co'
             from: 'ops@wisemonkeys.co'
