@@ -23,7 +23,7 @@ jobs:
        NOTES=$(cat releases/6.2.0/release-notes.md)
        SUBJECT="Wise Billing 4.0.0"
        TEXT="Feature1"
-       HTML="<h1>Wise Billing 4.0.0</h1><p>Feature 1\n Feature2</p><a class=\"ulink\" href=\"http://www.google.com" target=\"_blank\">Google</a>"
+       HTML="<h1>Wise Billing 4.0.0</h1><p>Feature 1\n Feature2</p><a class=\"ulink\" href=\"http://www.google.com\" target=\"_blank\">Google</a>"
 
        sed 's/#subject#/'$SUBJECT'/' template.json > 1.json
        sed 's/#text#/'$TEXT'/' 1.json > 2.json
