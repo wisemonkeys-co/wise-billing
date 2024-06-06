@@ -24,13 +24,12 @@ jobs:
        SUBJECT="Wise Billing 4.0.0"
        TEXT="Feature1"
        VERSION="4.0.0"
-       HTML="<h1>Wise Billing 4.0.0<\/h1><p>Feature 1<\/br> Feature2<\/p><a class='ulink' href='http://www.google.com' target='_blank'>Google<\/a>"
-
+       
        echo $HTML
 
-       sed "s/subject/$SUBJECT/" template.json > 1.json
-       sed "s/text/$TEXT/" 1.json > 2.json
-       sed "s/version/$VERSION/" 2.json > message.json
+       sed "s/#subject#/$SUBJECT/" template.json > 1.json
+       sed "s/#text#/$TEXT/" 1.json > 2.json
+       sed "s/#version#/$VERSION/" 2.json > message.json
        
        cat message.json
 
