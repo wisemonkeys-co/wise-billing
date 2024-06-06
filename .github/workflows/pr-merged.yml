@@ -21,8 +21,6 @@ jobs:
       id: content
       run:  |
        echo "NOTES=$(cat releases/6.2.0/release-notes.md)" >> $GITHUB_OUTPUT
-       echo "|"$NOTES"|"
-       echo $FIRST_COMMENT
        aws --version
 
     - name: Send email using AWS SES
