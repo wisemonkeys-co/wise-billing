@@ -22,6 +22,7 @@ jobs:
        NOTES=$(cat releases/6.2.0/release-notes.md)
        echo "|"$NOTES"|"
        echo $FIRST_COMMENT
+       aws --version
 
     - name: Send email using AWS SES
       uses: dsfx3d/action-aws-ses@v1
