@@ -8,7 +8,8 @@ env:
     AWS_SECRET_ACCESS_KEY: ${{ secrets.SES_SECRET_ACCESS_KEY }}
     AWS_DEFAULT_REGION: 'sa-east-1'
     FIRST_COMMENT: ${{ github.event.after.FIRST_COMMENT }}
-    EVENT: ${{ github.event.after }}
+    MILESTONE_NUMBER: ${{ github.event.after.milestone.number }}
+    MILESTONE_TITLE:  ${{ github.event.after.milestone.title }}
     NOTES: "Release notes\n - feat 1"
     
 jobs:
@@ -21,7 +22,9 @@ jobs:
     - name: Build body
       id: content
       run:  |
-       echo "|"$EVENT"|"
+       echo "Number: "$MILESTONE_NUMBER
+       echo "Title: "MILESTONE_TITLE
+
 
 
       #  TO="private.customers@wisemonkeys.co"
