@@ -26,7 +26,7 @@ jobs:
           with:
            update_existing: true
            search_existing: all     
-           milestone:  ${MILESTONE_NUMBER}
+           milestone:  ${{github.event.milestone.number}}
         - name: Pull Request
           run:  |
             branch=${BRANCH_PREFIX}"_"${MILESTONE_NUMBER}
