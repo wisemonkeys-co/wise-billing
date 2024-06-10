@@ -44,8 +44,8 @@ jobs:
                 git push -u origin ${branch}
                 echo "Branch "$branch" created "
                 echo "Creting new PR "$branch" ... " 
-                curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/pulls \
-                 -d '{"issue":'${{ steps.create-issue.outputs.number }}', "body": "<h2>'"${PRODUCT}"' '"${MILESTONE_TITLE}"'<\/h2>\n\n [Milestone('"${MILESTONE_NUMBER}"')](https://github.com/'"${ORGANIZATION}"'/'"${PRODUCT}"'/milestone/'"${MILESTONE_NUMBER}"'?closed=1)", "head":"'"${branch}"'","base":"main"}'   
+                PR_NUMBER=$(curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/pulls \
+                 -d '{"issue":'${{ steps.create-issue.outputs.number }}', "body": "<h2>'"${PRODUCT}"' '"${MILESTONE_TITLE}"'<\/h2>\n\n [Milestone('"${MILESTONE_NUMBER}"')](https://github.com/'"${ORGANIZATION}"'/'"${PRODUCT}"'/milestone/'"${MILESTONE_NUMBER}"'?closed=1)", "head":"'"${branch}"'","base":"main"}' )  
                 curl --request PATCH -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/pulls/${PR_NUMBER} \
                  -d '{"body": "<h2>'"${PRODUCT}"' '"${MILESTONE_TITLE}"'<\/h2>\n\n [Milestone('"${MILESTONE_NUMBER}"')](https://github.com/'"${ORGANIZATION}"'/'"${PRODUCT}"'/milestone/'"${MILESTONE_NUMBER}"'?closed=1)"}'             
                 echo "PR "$branch" created " 
