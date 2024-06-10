@@ -1,3 +1,6 @@
+---
+title: "{{ env.MILESTONE_TITLE }}"
+---
 <h2>Descrição</h2>
 
 Descrever de forma abrangente a funcionalidade a ser implementada
