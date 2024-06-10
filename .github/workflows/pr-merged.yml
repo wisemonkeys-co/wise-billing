@@ -36,7 +36,7 @@ jobs:
        echo "{\"Source\":\"Wise Monkeys <ops@wisemonkeys.co>\"," \
        "\"Template\"": \""notes03"\""," \
        "\"Destination\": { \"ToAddresses\": [\"private.customers@wisemonkeys.co\"]}," \
-       "\"TemplateData\"": \""{\\\"version\\\":\\\""$MILESTONE_TITLE"\\\", \\\"milestone\\\":\\\""$MILESTONE_NUMBER"\\\", \\\"features\\\":"$NOTES"}\"}" > mail.json
+       "\"TemplateData\"": \""{\\\"version\\\":\\\""$MILESTONE_TITLE"\\\", \\\"milestone\\\":\\\""$MILESTONE_NUMBER"\\\", \\\"pullRequest\\\":\\\""$PR_NUMBER"\\\", \\\"features\\\":"$NOTES"}\"}" > mail.json
 
        cat mail.json
 
