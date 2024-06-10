@@ -20,13 +20,6 @@ jobs:
       steps:
         - name: Checkout
           uses: actions/checkout@v4  
-        - name: Create child issue  
-          id:   create-issue
-          uses: JasonEtco/create-an-issue@v2
-          with:
-           update_existing: true
-           search_existing: all     
-           milestone:  ${{github.event.milestone.number}}
         - name: Pull Request
           run:  |
             branch=${BRANCH_PREFIX}"_"${MILESTONE_NUMBER}
@@ -52,6 +45,14 @@ jobs:
              fi
 
 #             curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/pulls \
-#             -d '{"issue":'${ steps.create-issue.outputs.number }', "body": "<h2>'"${PRODUCT}"' '"${MILESTONE_TITLE}"'<\/h2>\n\n [Milestone('"${MILESTONE_NUMBER}"')](https://github.com/'"${ORGANIZATION}"'/'"${PRODUCT}"'/milestone/'"${MILESTONE_NUMBER}"'?closed=1)", "head":"'"${branch}"'","base":"main"}'    
+#             -d '{"issue":'${ steps.create-issue.outputs.number }', "body": "<h2>'"${PRODUCT}"' '"${MILESTONE_TITLE}"'<\/h2>\n\n [Milestone('"${MILESTONE_NUMBER}"')](https://github.com/'"${ORGANIZATION}"'/'"${PRODUCT}"'/milestone/'"${MILESTONE_NUMBER}"'?closed=1)", "head":"'"${branch}"'","base":"main"}'   
+
+# - name: Create child issue  
+# id:   create-issue
+# uses: JasonEtco/create-an-issue@v2
+# with:
+#  update_existing: true
+#  search_existing: all     
+#  milestone:  ${github.event.milestone.number}
 
 
