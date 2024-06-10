@@ -5,11 +5,11 @@
     },
     "Body": {
         "Text": {
-            "Data": "#text#",
+            "Data": "text",
             "Charset": "UTF-8"
         },
         "Html": {
-            "Data": "<h1>Wise Billing #version#</h1><p>Feature 1</br> Feature2</p><a class='ulink' href='http://www.google.com' target='_blank'>Google</a>",
+            "Data": "#html#",
             "Charset": "UTF-8"
         }
     }
