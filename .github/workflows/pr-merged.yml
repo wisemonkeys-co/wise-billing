@@ -5,6 +5,8 @@ on:
       - closed
   workflow_dispatch:
 env:
+    ORGANIZATION: "wisemonkeys-co"  
+    PRODUCT:  "wise-billing"
     REPO_TOKEN:       ${{ secrets.WISE_CD_REPO_TOKEN }}
     AWS_ACCESS_KEY_ID: ${{ secrets.SES_ACCESS_KEY_ID }}
     AWS_SECRET_ACCESS_KEY: ${{ secrets.SES_SECRET_ACCESS_KEY }}
@@ -13,6 +15,7 @@ env:
     PR_TITLE: ${{ github.event.pull_request.title }}
     MILESTONE_NUMBER: ${{ github.event.pull_request.milestone.number }}
     MILESTONE_TITLE: ${{ github.event.pull_request.milestone.title }}
+    
     
 jobs:
   send-email:
@@ -28,7 +31,7 @@ jobs:
        echo "Title: "${PR_TITLE}
        echo "Milestone number: "${MILESTONE_NUMBER}
        echo "Milestone title: "${MILESTONE_TITLE}
-       NOTES=$(curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$PARENT_ORGANIZATION/$REPO/issues?state=closed\&milestone=$MILESTONE_NUMBER  | jq  '[ .[] | { description: .title} ]' | sed 's/"/\\\"/g' | tr -d "\n") 
+       NOTES=$(curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?state=closed\&milestone=$MILESTONE_NUMBER  | jq  '[ .[] | { description: .title} ]' | sed 's/"/\\\"/g' | tr -d "\n") 
 
        echo "{\"Source\":\"Wise Monkeys <ops@wisemonkeys.co>\"," \
        "\"Template\"": \""notes03"\""," \
