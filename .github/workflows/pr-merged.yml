@@ -22,8 +22,8 @@ jobs:
     - name: Build body
       id: content
       run:  |
-       echo "Number: "$MILESTONE_NUMBER
-       echo "Title: "MILESTONE_TITLE
+       echo "Number: "${MILESTONE_NUMBER}
+       echo "Title: "${MILESTONE_TITLE}
 
 
 
