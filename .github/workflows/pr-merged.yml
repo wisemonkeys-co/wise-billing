@@ -1,15 +1,15 @@
 name: Main merge
 on:
-  push:
-    branches: [ wise-change-mng_21,main ]
+  pull_request:
+    types: 
+      - closed
   workflow_dispatch:
 env:
     AWS_ACCESS_KEY_ID: ${{ secrets.SES_ACCESS_KEY_ID }}
     AWS_SECRET_ACCESS_KEY: ${{ secrets.SES_SECRET_ACCESS_KEY }}
     AWS_DEFAULT_REGION: 'sa-east-1'
-    FIRST_COMMENT: ${{ github.event.after.FIRST_COMMENT }}
     PR_NUMBER: ${{ github.event.pull_request.number }}
-    MILESTONE_TITLE:  ${{ github.event.after.milestone.title }}
+    PR_TITLE: ${{ github.event.pull_request.title }}
     NOTES: "Release notes\n - feat 1"
     
 jobs:
@@ -23,10 +23,7 @@ jobs:
       id: content
       run:  |
        echo "Number: "${PR_NUMBER}
-       echo "Title: "${MILESTONE_TITLE}
-
-
-
+       echo "Title: "${PR_TITLE}
 
       #  TO="private.customers@wisemonkeys.co"
       #  NOTES=$(cat releases/6.2.0/release-notes.md)
