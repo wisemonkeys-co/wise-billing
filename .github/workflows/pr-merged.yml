@@ -10,12 +10,13 @@ env:
     AWS_DEFAULT_REGION: 'sa-east-1'
     PR_NUMBER: ${{ github.event.pull_request.number }}
     PR_TITLE: ${{ github.event.pull_request.title }}
+    MILESTONE_NUMBER: ${{ github.event.pull_request.milestone.number }}
+    MILESTONE_TITLE: ${{ github.event.pull_request.milestone.title }}
     NOTES: "Release notes\n - feat 1"
     
 jobs:
   send-email:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -24,8 +25,11 @@ jobs:
       run:  |
        echo "Number: "${PR_NUMBER}
        echo "Title: "${PR_TITLE}
+       echo "Milestone number: "${MILESTONE_NUMBER}
+       echo "Milestone title: "${MILESTONE_TITLE}
 
-      #  TO="private.customers@wisemonkeys.co"
+
+      #  TO="private.customers@wisemonkeys.co"  
       #  NOTES=$(cat releases/6.2.0/release-notes.md)
       #  SUBJECT="Wise Billing 4.0.0"
       #  TEXT="Feature1"

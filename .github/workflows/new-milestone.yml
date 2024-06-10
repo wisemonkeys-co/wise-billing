@@ -19,7 +19,14 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout
-          uses: actions/checkout@v4   
+          uses: actions/checkout@v4  
+        - name: Create child issue  
+          id:   create-issue
+          uses: JasonEtco/create-an-issue@v2
+          with:
+           update_existing: true
+           search_existing: all     
+           milestone:  ${MILESTONE_NUMBER}
         - name: Pull Request
           run:  |
             branch=${BRANCH_PREFIX}"_"${MILESTONE_NUMBER}
