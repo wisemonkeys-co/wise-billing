@@ -12,11 +12,11 @@ env:
     PR_TITLE: ${{ github.event.pull_request.title }}
     MILESTONE_NUMBER: ${{ github.event.pull_request.milestone.number }}
     MILESTONE_TITLE: ${{ github.event.pull_request.milestone.title }}
-    NOTES: "Release notes\n - feat 1"
     
 jobs:
   send-email:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -27,7 +27,14 @@ jobs:
        echo "Title: "${PR_TITLE}
        echo "Milestone number: "${MILESTONE_NUMBER}
        echo "Milestone title: "${MILESTONE_TITLE}
+       NOTES=$(curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$PARENT_ORGANIZATION/$REPO/issues?state=closed\&milestone=$MILESTONE_NUMBER  | jq  '[ .[] | { description: .title} ]' | sed 's/"/\\\"/g' | tr -d "\n")    # '[.[].title]'
 
+       echo "{\"Source\":\"Wise Monkeys <ops@wisemonkeys.co>\"," \
+       "\"Template\"": \""notes03"\""," \
+       "\"Destination\": { \"ToAddresses\": [\"private.customers@wisemonkeys.co\"]}," \
+       "\"TemplateData\"": \""{\\\"version\\\":\\\""$MILESTONE_TITLE"\\\", \\\"milestone\\\":\\\""$MILESTONE_NUMBER"\\\", \\\"features\\\":"$NOTES"}\"}" > mail.json
+
+       aws ses send-templated-email --cli-input-json file://mail.json
 
       #  TO="private.customers@wisemonkeys.co"  
       #  NOTES=$(cat releases/6.2.0/release-notes.md)
