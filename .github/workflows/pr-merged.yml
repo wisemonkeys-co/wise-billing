@@ -8,6 +8,7 @@ env:
     AWS_SECRET_ACCESS_KEY: ${{ secrets.SES_SECRET_ACCESS_KEY }}
     AWS_DEFAULT_REGION: 'sa-east-1'
     FIRST_COMMENT: ${{ github.event.after.FIRST_COMMENT }}
+    EVENT: ${{ github.event.after }}
     NOTES: "Release notes\n - feat 1"
     
 jobs:
@@ -20,22 +21,25 @@ jobs:
     - name: Build body
       id: content
       run:  |
-       TO="private.customers@wisemonkeys.co"
-       NOTES=$(cat releases/6.2.0/release-notes.md)
-       SUBJECT="Wise Billing 4.0.0"
-       TEXT="Feature1"
-       VERSION="4.0.0"
-       
-       echo '{"ToAddresses":  ["private.customers@wisemonkeys.co"],"CcAddresses":  [],"BccAddresses": []}' > destination.json
-       sed "s/#subject#/$SUBJECT/" template.json > 1.json
-       sed "s/#subject#/$SUBJECT/" template.json > 1.json
-       sed "s/#text#/$TEXT/" 1.json > 2.json
-       sed "s/#version#/$VERSION/" 2.json > message.json
-       
-       cat message.json
+       echo "|"$EVENT"|"
 
 
-       aws ses send-email --from ops@wisemonkeys.co --destination file://destination.json --message file://message.json
+      #  TO="private.customers@wisemonkeys.co"
+      #  NOTES=$(cat releases/6.2.0/release-notes.md)
+      #  SUBJECT="Wise Billing 4.0.0"
+      #  TEXT="Feature1"
+      #  VERSION="4.0.0"
+       
+      #  echo '{"ToAddresses":  ["private.customers@wisemonkeys.co"],"CcAddresses":  [],"BccAddresses": []}' > destination.json
+      #  sed "s/#subject#/$SUBJECT/" template.json > 1.json
+      #  sed "s/#subject#/$SUBJECT/" template.json > 1.json
+      #  sed "s/#text#/$TEXT/" 1.json > 2.json
+      #  sed "s/#version#/$VERSION/" 2.json > message.json
+       
+      #  cat message.json
+
+
+      #  aws ses send-email --from ops@wisemonkeys.co --destination file://destination.json --message file://message.json
        
 
       #  echo '{"ToAddresses":  ["private.customers@wisemonkeys.co"],"CcAddresses":  [],"BccAddresses": []}' > destination.json
