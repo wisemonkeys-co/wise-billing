@@ -6,16 +6,18 @@ on:
 env:
   ORGANIZATION:  wisemonkeys-co 
   PRODUCT:       wise-billing
-  IMAGE:  ${{ github.event.client_payload.imageName }}
-  TAG:    ${{ github.event.client_payload.imageTag }}
-  ISSUE:  ${{ github.event.client_payload.issue }}
+  REPO_TOKEN:    ${{ secrets.WISE_CD_REPO_TOKEN }}
+  IMAGE:         ${{ github.event.client_payload.imageName }}
+  TAG:           ${{ github.event.client_payload.imageTag }}
+  ISSUE:         ${{ github.event.client_payload.issue }}
 
 jobs:
   upgrade-pull-request:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: echo branch
         run:  |
-         echo "IMAGE: "${IMAGE}" TAG: "${TAG}" ISSUE: "${ISSUE} 
+         echo "IMAGE: "${IMAGE}" TAG: "${TAG}" ISSUE: "${ISSUE}
+         scripts/update-task.sh $REPO_TOKEN set $ISSUE $IMAGE $TAG
