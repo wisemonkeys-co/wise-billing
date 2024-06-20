@@ -30,12 +30,20 @@ jobs:
        echo "Title: "${PR_TITLE}
        echo "Milestone number: "${MILESTONE_NUMBER}
        echo "Milestone title: "${MILESTONE_TITLE}
+
+       read login url date < <(echo $(curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/milestones/$MILESTONE_NUMBER | jq -r '.creator.login , .creator.html_url, .due_on'))
+
+       PARTS=(${date//T/ }) 
+       DATE=${PARTS[0]}
+       PARTS=(${DATE//-/ }) 
+       DATE=${PARTS[2]}"/"${PARTS[1]}"/"${PARTS[0]}
+
        NOTES=$(curl -H "Authorization: token $REPO_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues?state=closed\&milestone=$MILESTONE_NUMBER  | jq  '[ .[] | { description: .title}  | select(.description != "'$MILESTONE_TITLE'") ]' | sed 's/"/\\\"/g' | tr -d "\n") 
 
        echo "{\"Source\":\"Wise Monkeys <ops@wisemonkeys.co>\"," \
-       "\"Template\"": \""notes_v3"\""," \
+       "\"Template\"": \""notes_v6"\""," \
        "\"Destination\": { \"ToAddresses\": [\"private.customers@wisemonkeys.co\"]}," \
-       "\"TemplateData\"": \""{\\\"version\\\":\\\""$MILESTONE_TITLE"\\\", \\\"milestone\\\":\\\""$MILESTONE_NUMBER"\\\", \\\"pullRequest\\\":\\\""$PR_NUMBER"\\\", \\\"features\\\":"$NOTES"}\"}" > mail.json
+       "\"TemplateData\"": \""{\\\"version\\\":\\\""$MILESTONE_TITLE"\\\", \\\"milestone\\\":\\\""$MILESTONE_NUMBER"\\\", \\\"data\\\":\\\""$DATE"\\\", \\\"pullRequest\\\":\\\""$PR_NUMBER"\\\", \\\"features\\\":"$NOTES"}\"}" > mail.json
 
        cat mail.json
 
