@@ -10,7 +10,8 @@
 ORGANIZATION=wisemonkeys-co 
 PRODUCT=wise-billing
 TMP_FILE="tmp/"$4"_"$3
-                                                                                 
+
+mkdir -p tmp                                                                                 
 curl -H "Authorization: token $1" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$ORGANIZATION/$PRODUCT/issues/$3 | jq '.body' > $TMP_FILE
 
 VALID=1
