@@ -13,13 +13,34 @@ env:
   ISSUE_TITLE:  ${{ github.event.issue.title }}
   LABEL:        ${{ github.event.label.name }}
   ACTION:       ${{ github.event.action }}
+  
 jobs:  
-  sync:    
+  link:    
     name: Link sub Issue
     runs-on: ubuntu-latest
+    if: github.event_name == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) 
     steps:
-      - run: echo "event name is:" ${{ github.event_name }} 
-      - run: echo "event type is:" ${{ github.event.action }} 
-      - name: Link sub issue
-        run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches 
-              -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","repo":"'$LABEL'","issue":{"number":"'$ISSUE_NUMBER'","title":"'"$ISSUE_TITLE"'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'","projectId":"'$PROJECT_ID'"}}}'
+      - run: | 
+         echo "Buit in label"
+         echo "event name is:" ${{ github.event_name }} 
+         echo "event type is:" ${{ github.event.action }} 
+         scripts/update-task.sh $REPO_TOKEN add $ISSUE_NUMBER $LABEL ""
+  unlink:    
+    name: Unlink sub Issue
+    runs-on: ubuntu-latest
+    if: github.event_name == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )
+    steps:
+      - run: | 
+         echo "Buit in label"
+         echo "event name is:" ${{ github.event_name }} 
+         echo "event type is:" ${{ github.event.action }} 
+         scripts/update-task.sh $REPO_TOKEN del $ISSUE_NUMBER $LABEL ""
+  # notify:
+  #   name: Notify service repo
+  #   runs-on: ubuntu-latest
+  #   if: ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )
+  #   steps:
+  #     - run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches 
+  #             -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","repo":"'$LABEL'","issue":{"number":"'$ISSUE_NUMBER'","title":"'"$ISSUE_TITLE"'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'","projectId":"'$PROJECT_ID'"}}}'
+
+#   if: github.event.pull_request.merged == true
