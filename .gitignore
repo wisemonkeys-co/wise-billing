@@ -1,2 +1,4 @@
 sec
 tmp
+
+.github/workflows/test.sh
