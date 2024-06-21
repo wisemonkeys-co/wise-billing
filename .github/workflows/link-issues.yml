@@ -18,7 +18,7 @@ jobs:
   link:    
     name: Link sub Issue
     runs-on: ubuntu-latest
-    if: github.event_name == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) 
+
     steps:
       - run: | 
          echo "Buit in label"
@@ -28,13 +28,17 @@ jobs:
   unlink:    
     name: Unlink sub Issue
     runs-on: ubuntu-latest
-    if: github.event_name == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )
+
     steps:
       - run: | 
          echo "Buit in label"
          echo "event name is:" ${{ github.event_name }} 
          echo "event type is:" ${{ github.event.action }} 
          scripts/update-task.sh $REPO_TOKEN del $ISSUE_NUMBER $LABEL ""
+
+#         if: github.event_name == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) 
+#         if: github.event_name == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )
+
   # notify:
   #   name: Notify service repo
   #   runs-on: ubuntu-latest
