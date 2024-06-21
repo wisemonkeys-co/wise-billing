@@ -39,3 +39,7 @@ jobs:
          echo "issue: "$ISSUE_NUMBER
          echo "repo:  "$LABEL
          scripts/update-task.sh $REPO_TOKEN del $ISSUE_NUMBER $LABEL
+      - id: notify   
+        if: ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )
+        run: curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches 
+               -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","repo":"'$LABEL'","issue":{"number":"'$ISSUE_NUMBER'","title":"'"$ISSUE_TITLE"'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'","projectId":"'$PROJECT_ID'"}}}'

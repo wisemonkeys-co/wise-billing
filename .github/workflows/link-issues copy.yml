@@ -18,9 +18,11 @@ jobs:
   link:    
     name: Link sub Issue
     runs-on: ubuntu-latest
-    steps:
+
+    steps:      
       - name: Checkout
-        uses: actions/checkout@v4  
+        uses: actions/checkout@v4   
+      
       - run: | 
          echo "Buit in label"
          echo "event name is:" ${{ github.event_name }} 
