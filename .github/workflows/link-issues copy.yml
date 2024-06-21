@@ -1,7 +1,7 @@
 name: Link issue
 on:
   issues:
-    types: [labeled, unlabeled]
+    types: [closed]
 env:
   REPO_TOKEN:   ${{ secrets.WISE_CD_REPO_TOKEN }}
   ORGANIZATION: wisemonkeys-co 
@@ -39,3 +39,16 @@ jobs:
          echo "issue: "$ISSUE_NUMBER
          echo "repo:  "$LABEL
          scripts/update-task.sh $REPO_TOKEN del $ISSUE_NUMBER $LABEL
+
+#         if: github.event_name == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) 
+#         if: github.event_name == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )
+
+  # notify:
+  #   name: Notify service repo
+  #   runs-on: ubuntu-latest
+  #   if: ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )
+  #   steps:
+  #     - run:  curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches 
+  #             -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","repo":"'$LABEL'","issue":{"number":"'$ISSUE_NUMBER'","title":"'"$ISSUE_TITLE"'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'","projectId":"'$PROJECT_ID'"}}}'
+
+#   if: github.event.pull_request.merged == true
