@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4   
       - id: labeled  
-        if: github.event_name == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) 
+        if: github.event.action == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) 
         run: | 
          echo "Buit in label"
          echo "event name is:" ${{ github.event_name }} 
@@ -31,7 +31,7 @@ jobs:
          echo "repo:  "$LABEL
          scripts/update-task.sh $REPO_TOKEN add $ISSUE_NUMBER $LABEL
       - id: unlabeled
-        if: github.event_name == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )      
+        if: github.event.action == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )      
         run: | 
          echo "Buit in label"
          echo "event name is:" ${{ github.event_name }} 
