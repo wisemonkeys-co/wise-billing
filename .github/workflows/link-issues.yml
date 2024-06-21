@@ -18,21 +18,21 @@ jobs:
   link:    
     name: Link sub Issue
     runs-on: ubuntu-latest
-
     steps:
-      - run: | 
+      - name: Checkout
+        uses: actions/checkout@v4   
+      - id: labeled  
+        if: github.event_name == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) 
+        run: | 
          echo "Buit in label"
          echo "event name is:" ${{ github.event_name }} 
          echo "event type is:" ${{ github.event.action }} 
          echo "issue: "$ISSUE_NUMBER
          echo "repo:  "$LABEL
          scripts/update-task.sh $REPO_TOKEN add $ISSUE_NUMBER $LABEL
-  unlink:    
-    name: Unlink sub Issue
-    runs-on: ubuntu-latest
-
-    steps:
-      - run: | 
+      - id: unlabeled
+        if: github.event_name == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name )      
+        run: | 
          echo "Buit in label"
          echo "event name is:" ${{ github.event_name }} 
          echo "event type is:" ${{ github.event.action }} 
