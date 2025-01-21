@@ -1,6 +1,4 @@
 ---
-name: Nova funcionalidade
-about: Use este template para especificar novas funcionalidades
 title: "{{ env.MILESTONE_TITLE }}"
 ---
 <h2>Descrição</h2>
