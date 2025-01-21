@@ -24,6 +24,7 @@ jobs:
           id:   create-issue
           uses: JasonEtco/create-an-issue@v2
           with:
+            filename: .github/ISSUE_TEMPLATE/issue_template.md
             update_existing: true
             search_existing: all     
             milestone:  ${{github.event.milestone.number}}
