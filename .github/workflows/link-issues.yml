@@ -26,7 +26,6 @@ jobs:
         run: | 
          echo $ACTION" "$LABEL 
          echo "issue: "$ISSUE_NUMBER
-         echo "repo:  "$LABEL
          echo "type:  "$ISSUE_TYPE
       - id: labeled  
         if: ${{ github.event.action == 'labeled' }}
