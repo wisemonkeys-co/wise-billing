@@ -11,6 +11,7 @@ env:
   GH_REPO:      ${{ github.repository }}
   ISSUE_NUMBER: ${{ github.event.issue.number }}
   ISSUE_TITLE:  ${{ github.event.issue.title }}
+  ISSUE_TYPE:   ${{ github.event.issue.type }}
   LABEL:        ${{ github.event.label.name }}
   ACTION:       ${{ github.event.action }}
   
@@ -21,22 +22,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4   
-      - id: labeled  
-        if: ${{ github.event.action == 'labeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) }}
+      - id: log  
         run: | 
          echo $ACTION" "$LABEL 
          echo "issue: "$ISSUE_NUMBER
          echo "repo:  "$LABEL
+         echo "type:  "$ISSUE_TYPE
+      - id: labeled  
+        if: ${{ github.event.action == 'labeled' }}
+        run: | 
          scripts/update-task.sh $REPO_TOKEN add $ISSUE_NUMBER $LABEL
       - id: unlabeled
-        if: ${{ github.event.action == 'unlabeled' &&  ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) }}     
+        if: ${{ github.event.action == 'unlabeled' }}     
         run: | 
-         echo $ACTION" "$LABEL  
-         echo "issue: "$ISSUE_NUMBER
-         echo "repo:  "$LABEL
          scripts/update-task.sh $REPO_TOKEN del $ISSUE_NUMBER $LABEL
       - id: notify   
-        if: ${{ ! contains(fromJSON('["bug", "enhancement"]'), github.event.label.name ) }}
         run: |
           curl -X POST --header "Accept:application/vnd.github.v3+json" --header "Authorization:token $REPO_TOKEN" https://api.github.com/repos/$ORGANIZATION/$LABEL/dispatches  \
                -d '{"event_type":"parent-issue-updated","client_payload":{"action":"'$ACTION'","repo":"'$LABEL'","issue":{"number":"'$ISSUE_NUMBER'","title":"'"$ISSUE_TITLE"'"},"product":{"name":"'$PRODUCT'","organization":"'$ORGANIZATION'","projectId":"'$PROJECT_ID'"}}}'
