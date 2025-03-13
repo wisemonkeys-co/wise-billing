@@ -1,6 +1,0 @@
-name: Type
-on:
-  issues:
-    types: [edited]
-env:
-  ISSUE_TYPE:  ${{ github.event.issue }} 
