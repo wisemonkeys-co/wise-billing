@@ -1,1 +1,2 @@
-Atualização Kubernetes 1.30
+Atualização Kubernetes ( AWS EKS)  1.31
+Atualização Kubernetes ( AWS EKS) 1.30
