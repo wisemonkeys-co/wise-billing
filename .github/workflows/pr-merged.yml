@@ -50,8 +50,23 @@ jobs:
 
        aws ses send-templated-email --cli-input-json file://mail.json
 
+       branch=${BRANCH_PREFIX}"_"${MILESTONE_NUMBER}
+       echo "Checking if "$branch" already exists ..."
+       existed_in_remote=$(git ls-remote --heads origin ${branch})
+       if [[ -z ${existed_in_remote} ]]; then
+          echo "Branch "$branch" not found"          
+       else
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout ${branch}  
+          echo ${MILESTONE_TITLE} > v          
+          echo $(date) milestone $MILESTONE_TITLE branch $branch merged >> releases/$MILESTONE_TITLE/trace
+          git add .
+          git commit -a -m "New version "$MILESTONE_TITLE" branch "${branch} 
+          git push -u origin ${branch}
+          echo "New version "$MILESTONE_TITLE" branch "$branch" merged "     
+       fi
 
-
-       echo ${MILESTONE_TITLE} > v
+       
 
             
