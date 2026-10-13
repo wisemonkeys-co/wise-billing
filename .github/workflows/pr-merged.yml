@@ -7,7 +7,6 @@ on:
 env:
     ORGANIZATION: "wisemonkeys-co"  
     PRODUCT:  "wise-billing"
-    REPO_TOKEN:       ${{ secrets.WISE_CD_REPO_TOKEN }}
     AWS_ACCESS_KEY_ID: ${{ secrets.SES_ACCESS_KEY_ID }}
     AWS_SECRET_ACCESS_KEY: ${{ secrets.SES_SECRET_ACCESS_KEY }}
     AWS_DEFAULT_REGION: 'sa-east-1'
@@ -20,8 +19,26 @@ env:
 jobs:
   send-email:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    # Release notes (e-mail a clientes) só para PRs de release, que têm milestone: qualquer outro merge
+    # (ex: mudança de workflow) enviaria o e-mail com versão e notas vazias.
+    if: github.event.pull_request.merged == true && github.event.pull_request.milestone != null
     steps:
+    - name: Token do GitHub App de CD
+      id: app
+      continue-on-error: true
+      uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+      with:
+        client-id: ${{ vars.CD_APP_CLIENT_ID }}
+        private-key: ${{ secrets.CD_APP_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+    - name: Token (App; PAT até o fim da migração)
+      env:
+        APP_TOKEN: ${{ steps.app.outputs.token }}
+        PAT: ${{ secrets.WISE_CD_REPO_TOKEN }}
+      run: |
+        if [ -n "$APP_TOKEN" ]; then token="$APP_TOKEN"; echo "Token: GitHub App"; else token="$PAT"; echo "::warning::Token: PAT (GitHub App não instalado ou não configurado neste repositório)"; fi
+        echo "::add-mask::$token"
+        echo "REPO_TOKEN=$token" >> "$GITHUB_ENV"
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Build body
