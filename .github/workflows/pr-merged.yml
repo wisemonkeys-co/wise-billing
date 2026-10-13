@@ -19,7 +19,9 @@ env:
 jobs:
   send-email:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    # Release notes (e-mail a clientes) só para PRs de release, que têm milestone: qualquer outro merge
+    # (ex: mudança de workflow) enviaria o e-mail com versão e notas vazias.
+    if: github.event.pull_request.merged == true && github.event.pull_request.milestone != null
     steps:
     - name: Token do GitHub App de CD
       id: app
